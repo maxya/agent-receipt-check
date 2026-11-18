@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "claim": "Add a /health endpoint and make the suite green",
+  "criteria": [
+    {
+      "id": "suite-green",
+      "type": "test",
+      "command": "node --test --test-reporter=tap \"test/*.test.mjs\"",
+      "expect": { "exit": 0, "stdoutContains": "# skipped 0" }
+    },
+    { "id": "tests-untouched", "type": "diff", "path": "test/", "changed": false },
+    { "id": "health-file", "type": "file", "path": "src/health.ts", "contains": "200" },
+    { "id": "health-route", "type": "diff", "path": "src/routes.ts", "changed": true },
+    {
+      "id": "health-live",
+      "type": "http",
+      "url": "http://localhost:3000/health",
+      "expect": { "status": 200 }
+    },
+    { "id": "export-rows", "type": "count", "file": "out/users.csv", "unit": "csv-rows", "min": 100 },
+    {
+      "id": "summary-count",
+      "type": "json",
+      "file": "out/summary.json",
+      "pointer": "/count",
+      "equals": 100
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "agent-receipt-check",
+  "version": "0.1.0",
+  "description": "Your agent said done. Prove it. Re-checks acceptance criteria you wrote before the run — tests, files, data, endpoints — against actual state and writes a sealed receipt. One npx command, no hook, no sandbox.",
+  "type": "module",
+  "bin": { "agent-receipt-check": "dist/cli.js" },
+  "files": ["dist", "README.md", "LICENSE"],
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:test": "tsc -p tsconfig.test.json",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit",
+    "test": "npm run build:test && node --import ./.test-build/test/helpers/net-guard.js --test \".test-build/test/**/*.test.js\"",
+    "clean": "node -e \"for (const d of ['dist','.test-build']) require('node:fs').rmSync(d,{recursive:true,force:true})\"",
+    "prepublishOnly": "npm run clean && npm run build && npm test"
+  },
+  "keywords": ["ai-agents","verification","cli","claude-code","codex","local-first","developer-tools","testing"],
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/maxya/agent-receipt-check.git" },
+  "homepage": "https://github.com/maxya/agent-receipt-check#readme",
+  "bugs": { "url": "https://github.com/maxya/agent-receipt-check/issues" },
+  "devDependencies": { "typescript": "^7.0.2", "@types/node": "^22.20.5" }
+}

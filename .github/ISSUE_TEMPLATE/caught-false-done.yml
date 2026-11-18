@@ -1,0 +1,61 @@
+name: Caught a false "done"
+description: Your agent claimed something that was not true, and a criterion caught it.
+title: "[caught-false-done] "
+labels: ["caught-false-done"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a catch. Paste the FAIL line only — **no secrets, tokens, or
+        private paths**.
+  - type: dropdown
+    id: agent
+    attributes:
+      label: Agent used
+      options:
+        - Claude Code
+        - Codex
+        - Cursor
+        - Copilot
+        - Aider
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: claim
+    attributes:
+      label: What did the agent claim?
+      description: Quote or paraphrase the "done" claim.
+      placeholder: "e.g. The suite is green and every test passes."
+      render: text
+    validations:
+      required: true
+  - type: dropdown
+    id: criterion
+    attributes:
+      label: Which criterion type caught it?
+      options:
+        - test
+        - file
+        - diff
+        - http
+        - count
+        - json
+    validations:
+      required: true
+  - type: textarea
+    id: receipt
+    attributes:
+      label: The receipt's FAIL line(s)
+      description: Paste the FAIL line only — no secrets, tokens, or private paths.
+      placeholder: "FAIL  suite-green — stdout lacks \"# skipped 0\""
+      render: text
+    validations:
+      required: true
+  - type: checkboxes
+    id: sanitised
+    attributes:
+      label: Sanitised
+      options:
+        - label: I removed secrets / private paths
+          required: true
